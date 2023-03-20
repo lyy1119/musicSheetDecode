@@ -222,6 +222,20 @@ def PrintSoundTrack(lists):
         print(i)
         address = address + 1
 
+def SaveSoundTrack(lists):
+    with open("output" , "w") as f:
+        address = 1
+        for i in lists:
+            f.write("soundTrack%d = " % address)
+            # f.write(i)
+            f.write('[')
+            for j in i:
+                f.write("%d," % j)
+            f.write(']')
+            f.write('\n')
+            address = address + 1
+
+
 
 if __name__ == "__main__":
 
@@ -268,4 +282,5 @@ if __name__ == "__main__":
         address = address + 1
 
     PrintSoundTrack(soundtracks)
+    SaveSoundTrack(soundtracks)
     
