@@ -16,7 +16,7 @@ finish
 
 !第一声部
 -main=0
-#+C*4 -D #f
+#+C*4 -D #f =part1
 finish
 
 

@@ -160,16 +160,38 @@ def minimum_decode(strs):  # 接受一个str
 # 返回一个以list为子元素的list
 # 在这个函数里先解析*这种符号
 # 将模块化的章节放入
-def maxmum_decode(lists , parts):    # 将乐谱拆分 parts是子段落 用于解释标识符
-    #在这里先把*号去除掉
-    pass
+def maxmum_decode(alist):    # 将乐谱拆分
+    res = []
+    temp1 = []
+    # 在这里先把*号去除掉
+
+    # 先切分放到一个temple中
+    for i in alist:
+        if len(i.split('*')) == 1:
+            temp1.append([i , 1])
+        else:
+            temp1.append([i.split('*')[0] , i.split('*')[1]])
+    
+    for i in temp1:
+        for j in range(int(i[1])):
+            res.append(i[0])
+
+    return res  
+
+
+def sign_decode(alist , parts):  # 解释特殊标识符
+    res = []
+    for i in alist:
+        if i.startswith('='):   # =开头表示模块化乐谱
+
+
+            pass
+
 
 # 解析函数
 def decode():
     pass
 
-def printRes(lists):
-    pass
 
 
 if __name__ == "__main__":
@@ -179,4 +201,4 @@ if __name__ == "__main__":
     print(parts)
     # print(inputs())
     for i in main:
-        maxmum_decode(i)
+        print(maxmum_decode(i))
