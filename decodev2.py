@@ -130,28 +130,10 @@ def minimum_decode(strs):  # 接受一个str
 
     # 解析 C*4              这个功能需要砍掉 因为不需要在这里解析
     # 检查有没有*号
-    lenM = len(str2.split("*"))
-
-    if lenM == 2:   #说明有*号
-        sign = str2.split("*")[0]       # 音符
-        num0 = float(str2.split("*")[1])   # 次数
-        # 生成
-        # for t in range(times):
-        num = int(num0 * times)
-        while num:
-            #
-            if sign == '0':
-                res.append(spare)
-            else:
-                res.append(trans[sign][address]+addtion)    #加入
-            num = num - 1
+    if str2 == '0':
+            res.append(spare)
     else:
-        #
-        for t in range(times):
-            if str2 == '0':
-                    res.append(spare)
-            else:
-                res.append(trans[str2][address]+addtion)
+        res.append(trans[str2][address]+addtion)
     
     return res
 
@@ -182,10 +164,15 @@ def maxmum_decode(alist):    # 将乐谱拆分
 def sign_decode(alist , parts):  # 解释特殊标识符
     res = []
     for i in alist:
+        res.append(i)
         if i.startswith('='):   # =开头表示模块化乐谱
+            res.remove(i)
+            res.extend(parts[i.split('=')[1]])
+
+    return res
 
 
-            pass
+        
 
 
 # 解析函数
@@ -195,10 +182,21 @@ def decode():
 
 
 if __name__ == "__main__":
+
+    # 输入
     main , envir , parts = inputs()
-    print(main)
-    print(envir)
-    print(parts)
-    # print(inputs())
-    for i in main:
-        print(maxmum_decode(i))
+
+    print()
+    
+    # 处理parts
+    for i in parts.keys():
+        parts[i] = maxmum_decode(parts[i])
+    # 循环解释part
+    for i in parts.keys():
+        parts[i] = sign_decode(parts[i] , parts)
+
+    
+
+
+
+    # print(parts)

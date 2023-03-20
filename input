@@ -9,14 +9,16 @@ finish
 
 !声明一个结构化段落
 :create=part1
-#+C*4 -D #f
+#+C -D #f*5
 finish
 
-
+:create=part2
+-A #B =part1
+finish
 
 !第一声部
 -main=0
-#+C*4 -D #f =part1
+#+C*4 -D #f =part1 #C
 finish
 
 
