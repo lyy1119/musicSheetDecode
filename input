@@ -1,0 +1,29 @@
+!这种是注释
+!说明进行环境设置
+:setEnvironment
+!申明乐谱有两个主声部
+mainsector=2
+!环境申明结束
+finish
+
+
+!声明一个结构化段落
+:create=part1
+#+C*4 -D #f
+finish
+
+
+
+!第一声部
+-main=0
+#+C*4 -D #f
+finish
+
+
+
+!第二声部
+-main=1
+#+C*4 -D #f
+finish
+
+stop
