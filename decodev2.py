@@ -218,8 +218,9 @@ def decode():
 def PrintSoundTrack(lists):
     address = 1
     for i in lists:
-        print("soundTrack1 = " , end='')
+        print("soundTrack%d = " % address, end='')
         print(i)
+        address = address + 1
 
 
 if __name__ == "__main__":
