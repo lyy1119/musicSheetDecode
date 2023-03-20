@@ -18,14 +18,14 @@ finish
 
 !第一声部
 -main=0
-#+C*4 -D #f =part1 #C
+#+C*2 -D #f&#A #f&#a&#D =part1 #C
 finish
 
 
 
 !第二声部
 -main=1
-#+C*4 -D #f
+#+C*2 -D #f #D =part1 #C
 finish
 
 stop

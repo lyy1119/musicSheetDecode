@@ -172,7 +172,42 @@ def sign_decode(alist , parts):  # 解释特殊标识符
     return res
 
 
-        
+def decode_and(alist):
+    temp = []
+    for i in alist:
+        if '&' in i:
+            temp.append(i.split('&'))
+        else:
+            temp.append(i)
+    
+    maxlength = 0
+    for i in temp:
+        if type(i) == str:
+            if maxlength < 1:
+                maxlength = 1
+        else:
+            if len(i) > maxlength:
+                maxlength = len(i)
+    
+    # print(maxlength)
+    res = []
+    for i in range(maxlength):
+        res.append([])
+
+    for i in temp:
+        if type(i) == str:
+            for j in range(maxlength):
+                res[j].append(i)
+        elif type(i) == list:
+            length = len(i)
+            for j in range(length):
+                res[j].append(i[j])
+            for j in range(length , maxlength):
+                res[j].append(spare)
+    
+    return res
+
+
 
 
 # 解析函数
@@ -194,9 +229,25 @@ if __name__ == "__main__":
     # 循环解释part
     for i in parts.keys():
         parts[i] = sign_decode(parts[i] , parts)
+    
+    #循环解释main
+
+    sign_decoded_main = []
+    for i in main:
+        sign_decoded_main.append(sign_decode(maxmum_decode(i) , parts))
 
     
+    
+    # print(sign_decoded_main)
 
-
+    base_sign_main = []
+    for i in sign_decoded_main:
+        base_sign_main.append(decode_and(i))
+    
+    for i in base_sign_main:
+        if type(i) == list:
+            for j in i :
+                print(j)
+        # print(i)
 
     # print(parts)
