@@ -101,7 +101,7 @@ def minimum_decode(strs):  # 接受一个str
     再解析 C*4
     """
 
-    res = []
+    res = ''
     lens = len(strs.split("#"))
 
     
@@ -131,9 +131,9 @@ def minimum_decode(strs):  # 接受一个str
     # 解析 C*4              这个功能需要砍掉 因为不需要在这里解析
     # 检查有没有*号
     if str2 == '0':
-            res.append(spare)
+            res = spare
     else:
-        res.append(trans[str2][address]+addtion)
+        res = trans[str2][address]+addtion
     
     return res
 
@@ -203,7 +203,7 @@ def decode_and(alist):
             for j in range(length):
                 res[j].append(i[j])
             for j in range(length , maxlength):
-                res[j].append(spare)
+                res[j].append('0')
     
     return res
 
@@ -214,6 +214,12 @@ def decode_and(alist):
 def decode():
     pass
 
+
+def PrintSoundTrack(lists):
+    address = 1
+    for i in lists:
+        print("soundTrack1 = " , end='')
+        print(i)
 
 
 if __name__ == "__main__":
@@ -238,16 +244,27 @@ if __name__ == "__main__":
 
     
     
-    # print(sign_decoded_main)
-
-    base_sign_main = []
+    # 生成纯字符的谱子
+    base_sign_main_pre = []
     for i in sign_decoded_main:
-        base_sign_main.append(decode_and(i))
-    
-    for i in base_sign_main:
+        base_sign_main_pre.append(decode_and(i))
+    # 整理谱子
+    base_sign_main = []
+    for i in base_sign_main_pre:
         if type(i) == list:
             for j in i :
-                print(j)
+                base_sign_main.append(j)
         # print(i)
 
-    # print(parts)
+    # 生成声道
+    soundtracks = []
+    address = 0
+    for i in base_sign_main:
+        soundtracks.append([])
+        for j in i:
+            # print(minimum_decode(j))
+            soundtracks[address].append(minimum_decode(j))
+        address = address + 1
+
+    PrintSoundTrack(soundtracks)
+    
