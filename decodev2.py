@@ -153,6 +153,25 @@ def maxmum_decode(alist):    # 将乐谱拆分
             temp1.append([i , 1])
         else:
             temp1.append([i.split('*')[0] , i.split('*')[1]])
+    # 现在 存储格式为 [符号 , 次数]
+    # 查找最小的次数
+    min = 1
+    for i in temp1:
+        if float(i[1]) < min:
+            min = float(i[1])
+    
+    # 已经找到最小的数
+    global times
+    times = int(1/min)
+
+    for i in temp1:
+        i[1] = float(i[1]) * times
+
+
+    print(temp1)
+
+
+
     
     for i in temp1:
         for j in range(int(i[1])):
@@ -257,7 +276,6 @@ if __name__ == "__main__":
     for i in main:
         sign_decoded_main.append(sign_decode(maxmum_decode(i) , parts))
 
-    
     
     # 生成纯字符的谱子
     base_sign_main_pre = []
