@@ -1,8 +1,11 @@
-!这种是注释
+
+
+
 !说明进行环境设置
 :setEnvironment
 !申明乐谱有两个主声部
 speed=500
+print_on_cmd=0
 !环境申明结束
 finish
 
@@ -18,14 +21,14 @@ finish
 
 !第一声部
 -main=0
-#+C*0.125 -D #F&#A #F&#A&#D =part1 #C
+#+C -D #F&#A #F&#A&#D =part1 #C
 finish
 
 
 
 !第二声部
 -main=1
-#+C*0.125 -D #F #D =part1 #C
+#+C -D #F #D =part1 #C
 finish
 
 stop

@@ -170,7 +170,7 @@ def maxmum_decode(alist):    # 将乐谱拆分
         i[1] = float(i[1]) * times
 
 
-    print(temp1)
+    # print(temp1)
 
 
 
@@ -274,23 +274,25 @@ if __name__ == "__main__":
     # 输入
     main , envir , parts = inputs()
 
-    print()
-    
+    # ==============处理结构化乐谱 循环解释获得结构化的乐谱的真实内容=========
     # 处理parts
     for i in parts.keys():
         parts[i] = maxmum_decode(parts[i])
     # 循环解释part
     for i in parts.keys():
         parts[i] = sign_decode(parts[i] , parts)
-    
-    #循环解释main
+    # ===================================================================
 
+
+
+    # ====================循环解释main 将main中的parts展开=================
     sign_decoded_main = []
     for i in main:
         sign_decoded_main.append(sign_decode(maxmum_decode(i) , parts))
-
+    # ====================================================================
     
-    # 生成纯字符的谱子
+
+    # =======================生成纯字符的谱子 将&符号解析=====================
     base_sign_main_pre = []
     for i in sign_decoded_main:
         base_sign_main_pre.append(decode_and(i))
@@ -300,9 +302,9 @@ if __name__ == "__main__":
         if type(i) == list:
             for j in i :
                 base_sign_main.append(j)
-        # print(i)
+    # ==================================================================== 
 
-    # 生成声道
+    # =======================生成由数字构成的声道============================
     soundtracks = []
     address = 0
     for i in base_sign_main:
@@ -311,8 +313,17 @@ if __name__ == "__main__":
             # print(minimum_decode(j))
             soundtracks[address].append(minimum_decode(j))
         address = address + 1
+    # ====================================================================
 
-    PrintSoundTrack(soundtracks)
 
-    SaveSoundTrack(soundtracks , envir)
-    
+
+    # =========================环境变量控制================================
+    if "print_on_cmd" in envir.keys():
+        if int(envir["print_on_cmd"]) != 0:
+            PrintSoundTrack(soundtracks)
+    if "output_off" in envir.keys():
+        if int(envir["output_off"]) != 0:
+            pass
+    else:
+        SaveSoundTrack(soundtracks , envir)
+    # ==================================================================
