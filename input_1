@@ -11,24 +11,20 @@ finish
 
 
 !声明一个结构化段落
-:create=part1
-#+C -D #F*5
-finish
-
-:create=part2
--A #B =part1
+:create=partSpare
+0 0 0 0
 finish
 
 !第一声部
 -main=0
-#+C&F*2 =part1 #A
+0 0 0 A*0.5 B*0.5 +C*1.5 A*0.5 +C +E B*3 E A*1.5 G*0.5 A +C
 finish
 
 
 
 !第二声部
 -main=1
-#+C&D*2 =part1 #C
+=partSpare -A*0.5 -C*0.5 E*3 -E*0.5 -G*0.5 -B*3 -F*0.5 -A*0.5 C*3
 finish
 
 stop
