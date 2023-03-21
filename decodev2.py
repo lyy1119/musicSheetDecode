@@ -1,4 +1,6 @@
 
+import time
+
 C = [-6 , 1 , 8]
 D = [-5 , 2 , 9]
 E = [-4 , 3 , 10]
@@ -241,8 +243,19 @@ def PrintSoundTrack(lists):
         print(i)
         address = address + 1
 
-def SaveSoundTrack(lists):
+def SaveSoundTrack(lists , enviro):
     with open("output" , "w") as f:
+        # 输出基本信息
+        f.write("生成时间:\t%s\n" % time.asctime())
+        if "speed" in enviro.keys():
+            # 如果环境变量中有speed
+            f.write("乐谱速度:\t%d\n" % (int(enviro["speed"])*times))
+            f.write("(原速度:\t%s)\n" % enviro["speed"])
+        else:
+            f.write("速度倍数:\t%d\n" % times)
+            
+        f.write("\n")
+
         address = 1
         for i in lists:
             f.write("soundTrack%d = " % address)
@@ -300,5 +313,6 @@ if __name__ == "__main__":
         address = address + 1
 
     PrintSoundTrack(soundtracks)
-    SaveSoundTrack(soundtracks)
+
+    SaveSoundTrack(soundtracks , envir)
     
