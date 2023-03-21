@@ -1,8 +1,8 @@
 
-
+! 应该写成 A&A*3 表示 A&A 出现3次
 
 !说明进行环境设置
-:setEnvironment
+:setEnvironmentgit
 !申明乐谱有两个主声部
 speed=500
 print_on_cmd=0
@@ -21,14 +21,14 @@ finish
 
 !第一声部
 -main=0
-#+C -D #F&#A #F&#A&#D =part1 #C
+#+C&F*2 =part1 #A
 finish
 
 
 
 !第二声部
 -main=1
-#+C -D #F #D =part1 #C
+#+C&D*2 =part1 #C
 finish
 
 stop

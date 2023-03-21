@@ -104,13 +104,14 @@ def minimum_decode(strs):  # 接受一个str
     """
 
     res = ''
-    lens = len(strs.split("#"))
+    # lens = len(strs.split("#"))
 
     
     addtion = 0
 
     # 解析#号
-    if lens == 2:    #说明有#号
+    if '#' in strs:    #说明有#号
+        # print("有#号")
         addtion = 0.5
         str1 = strs.split("#")[1]
     else :
@@ -136,6 +137,7 @@ def minimum_decode(strs):  # 接受一个str
             res = spare
     else:
         res = trans[str2][address]+addtion
+        # print(res)
     
     return res
 
@@ -262,7 +264,7 @@ def SaveSoundTrack(lists , enviro):
             # f.write(i)
             f.write('[')
             for j in i:
-                f.write("%d," % j)
+                f.write("%.1f," % j)
             f.write(']')
             f.write('\n')
             address = address + 1
@@ -286,9 +288,11 @@ if __name__ == "__main__":
 
 
     # ====================循环解释main 将main中的parts展开=================
+    # 先解析* 再解析parts
     sign_decoded_main = []
     for i in main:
         sign_decoded_main.append(sign_decode(maxmum_decode(i) , parts))
+    # print(sign_decoded_main)
     # ====================================================================
     
 
