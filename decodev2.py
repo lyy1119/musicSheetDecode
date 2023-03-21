@@ -1,14 +1,14 @@
 
 import time
-
-C = [-6 , 1 , 8]
-D = [-5 , 2 , 9]
-E = [-4 , 3 , 10]
-F = [-3 , 4 , 11]
-G = [-2 , 5 , 12]
-A = [-1 , 6 , 13]
-B = [0 , 7 , 14]
-spare = 15
+    # ---   --   -        +    ++   +++
+C = [-20 , -13 , -6 , 1 , 8 , 15 , 22]
+D = [-19 , -12 , -5 , 2 , 9 , 16 , 23]
+E = [-18 , -11 , -4 , 3 , 10 , 17 , 24]
+F = [-17 , -10 , -3 , 4 , 11 , 18 , 25]
+G = [-16 , -9 , -2 , 5 , 12 , 19 , 26]
+A = [-15 , -8 , -1 , 6 , 13 , 20 , 27]
+B = [-14 , -7 , 0 , 7 , 14 , 21 , 28]
+spare = 29
 
 trans = {}
 trans["C"] = C
@@ -92,7 +92,12 @@ def inputs():
     return res , enviro , parts
     # return temp1
 
-
+def count_num(astr , tarCh):
+    res = 0
+    for i in astr:
+        if i == tarCh:
+            res = res + 1
+    return res
 
 # 解析最小单元   返回一个 list  这个list需要处理成多个字符  不能直接用
 def minimum_decode(strs):  # 接受一个str
@@ -120,19 +125,35 @@ def minimum_decode(strs):  # 接受一个str
     #解析 - +
     lenA = len(str1.split("-"))
     lenB = len(str1.split("+"))
+    puls_num = 0
+    minu_num = 0
 
-    if lenA == 2:   # 说明有 - 号
-        address = 0
-        str2 = str1.split("-")[1]
-    elif lenB == 2: # 说明有 + 号
-        address = 2
-        str2 = str1.split("+")[1]
-    else :          # 说明无-+号
-        address = 1
+    puls_num = count_num(str1 , '+')
+    minu_num = count_num(str1 , '-')
+
+    # if lenA == 2:   # 说明有 - 号
+    #     address = 0
+    #     str2 = str1.split("-")[1]
+    # elif lenB == 2: # 说明有 + 号
+    #     address = 2
+    #     str2 = str1.split("+")[1]
+    # else :          # 说明无-+号
+    #     address = 1
+    #     str2 = str1
+    if puls_num != 0:
+        address = puls_num + 3
+        str2 = str1.split("+")[puls_num]
+    elif minu_num != 0:
+        str2 = str1.split("-")[minu_num]
+        address = 3 - minu_num
+    else:
+        address = 3
         str2 = str1
 
+
+
+
     # 解析 C*4              这个功能需要砍掉 因为不需要在这里解析
-    # 检查有没有*号
     if str2 == '0':
             res = spare
     else:
