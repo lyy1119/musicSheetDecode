@@ -186,8 +186,10 @@ def maxmum_decode(alist):    # 将乐谱拆分
             min = float(i[1])
     
     # 已经找到最小的数
+    print(min)
     global times
-    times = int(1/min)
+    if times < int(1/min):
+        times = int(1/min)
 
     for i in temp1:
         i[1] = float(i[1]) * times
