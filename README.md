@@ -13,4 +13,10 @@ C D E F G A B分别代表1234567<br>
 ----------------------------
 
 程序是给( https://github.com/qwqpap/buzzer_pico_player )写的<br>
-乐谱库( https://github.com/ADreamToday/_musicSheet )
+乐谱库( https://github.com/ADreamToday/_musicSheet )<br>
+<br>
+指南:<br>
+CDEFGAB 代表1234567<br>
+在字母前面加-或+代表低或高阶<br>
+在最外面加#代表升调<br>
+......<br>
