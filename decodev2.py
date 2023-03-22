@@ -131,15 +131,6 @@ def minimum_decode(strs):  # 接受一个str
     puls_num = count_num(str1 , '+')
     minu_num = count_num(str1 , '-')
 
-    # if lenA == 2:   # 说明有 - 号
-    #     address = 0
-    #     str2 = str1.split("-")[1]
-    # elif lenB == 2: # 说明有 + 号
-    #     address = 2
-    #     str2 = str1.split("+")[1]
-    # else :          # 说明无-+号
-    #     address = 1
-    #     str2 = str1
     if puls_num != 0:
         address = puls_num + 3
         str2 = str1.split("+")[puls_num]
