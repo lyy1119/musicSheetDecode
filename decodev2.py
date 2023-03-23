@@ -184,12 +184,6 @@ def maxmum_decode(alist):    # 将乐谱拆分
 
     for i in temp1:
         i[1] = float(i[1]) * times
-
-
-    # print(temp1)
-
-
-
     
     for i in temp1:
         for j in range(int(i[1])):
