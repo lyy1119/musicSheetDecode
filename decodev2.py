@@ -8,10 +8,19 @@ F = [-17 , -10 , -3 , 4 , 11 , 18 , 25]
 G = [-16 , -9 , -2 , 5 , 12 , 19 , 26]
 A = [-15 , -8 , -1 , 6 , 13 , 20 , 27]
 B = [-14 , -7 , 0 , 7 , 14 , 21 , 28]
+
+C = [-20 , -13 , -6 , 1 , 8 , 15 , 22]
+D = [-19 , -12 , -5 , 2 , 9 , 16 , 23]
+E = [-18 , -11 , -4 , 3 , 10 , 17 , 24]
+F = [-17 , -10 , -3 , 4 , 11 , 18 , 25]
+G = [-16 , -9 , -2 , 5 , 12 , 19 , 26]
+A = [-15 , -8 , -1 , 6 , 13 , 20 , 27]
+B = [-14 , -7 , 0 , 7 , 14 , 21 , 28]
+
 spare = 29
 
 trans = {}
-trans["C"] = C
+trans["C"] = C 
 trans["D"] = D
 trans["E"] = E
 trans["F"] = F
@@ -183,7 +192,8 @@ def maxmum_decode(alist):    # 将乐谱拆分
         times = int(1/min)
 
     for i in temp1:
-        i[1] = float(i[1]) * times
+        if not i[0].startswith('='):
+            i[1] = float(i[1]) * times
     
     for i in temp1:
         for j in range(int(i[1])):
@@ -256,7 +266,7 @@ def SaveSoundTrack(lists , enviro):
             f.write("(原速度:\t%s)\n" % enviro["speed"])
         else:
             f.write("速度倍数:\t%d\n" % times)
-            
+        
         f.write("\n")
 
         address = 1
@@ -268,6 +278,8 @@ def SaveSoundTrack(lists , enviro):
                 f.write("%.1f," % j)
             f.write(']')
             f.write('\n')
+            f.write("长度为：%d" % len(i))
+            f.write("\n")
             address = address + 1
 
 
@@ -339,32 +351,49 @@ def STCcodeSave(lists):
 
 
 
-
+exchange = {'A':-2,'B':-1 , 'C':0,'D':1,'E':2,'F':3,'G':4}
 
 if __name__ == "__main__":
 
     # 输入
     main , envir , parts = inputs()
 
+    # ===========
+    if "freq" in envir.keys():
+        diao = exchange[envir['freq']]
+        for i in trans.keys():
+            for j , k in zip(trans[i] , range(7)):
+                trans[i][k] = trans[i][k] + diao
+
+    # =========
+
     # ==============处理结构化乐谱 循环解释获得结构化的乐谱的真实内容=========
-    # 处理parts
-    for i in parts.keys():
-        parts[i] = maxmum_decode(parts[i])
+    
     # 循环解释part
     for i in parts.keys():
         parts[i] = sign_decode(parts[i] , parts)
+        # 处理parts
+    
+    
+    # for i in parts.keys():
+    #     parts[i] = maxmum_decode(parts[i])
+    # print(parts)
     # ===================================================================
 
 
 
     # ====================循环解释main 将main中的parts展开=================
-    # 先解析* 再解析parts
+    # 先解析parts* 再解析*
+    sign_decoded_main_pre = [] 
     sign_decoded_main = []
     for i in main:
-        sign_decoded_main.append(sign_decode(maxmum_decode(i) , parts))
-    # print(sign_decoded_main)
+        # sign_decoded_main.append(sign_decode(maxmum_decode(i) , parts))
+        sign_decoded_main_pre.append(sign_decode(i , parts))
+    for i in sign_decoded_main_pre:
+        # sign_decoded_main.append(sign_decode(maxmum_decode(i) , parts))
+        sign_decoded_main.append(maxmum_decode(i))
+    print(sign_decoded_main)
     # ====================================================================
-    
 
     # =======================生成纯字符的谱子 将&符号解析=====================
     base_sign_main_pre = []
