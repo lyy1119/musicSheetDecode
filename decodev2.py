@@ -239,13 +239,6 @@ def decode_and(alist):
     return res
 
 
-
-
-# 解析函数
-def decode():
-    pass
-
-
 def PrintSoundTrack(lists):
     address = 1
     for i in lists:
