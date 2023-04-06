@@ -1,0 +1,18 @@
+@ 注释
+:setEnvironment
+
+@ 设置主旋律为D调
+mainTune=D
+
+
+finish
+
+:section=section1
+3 3 4
+finish
+
+:main
+1# 1 2 3b
+finish
+
+stop
