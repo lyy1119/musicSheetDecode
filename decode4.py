@@ -1,3 +1,6 @@
+import time
+import soundfreq
+
 
 # get inputs from terminal
 def inputFromCmd():
