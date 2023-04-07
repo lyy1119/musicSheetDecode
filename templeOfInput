@@ -2,7 +2,7 @@
 :setEnvironment
 
 @ 设置主旋律为D调
-mainTune=D
+mainTune=C
 
 
 finish
