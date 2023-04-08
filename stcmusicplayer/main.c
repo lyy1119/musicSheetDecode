@@ -1,4 +1,126 @@
-����ʱ��:	Sat Apr  8 16:39:51 2023
-����	87
+#include <STC32G.h>
+#include <intrins.h>
+#define u8 unsigned char
+
+// IRC = 24Mhz
+
+u8 Timer0H = 0x00;
+u8 Timer0L = 0x00;
+
 u8 code soundTrack[][] = { {0xf9,0x57} , {0xfb,0x03} , {0xfb,0x8f} , {0xfc,0x0a} , {0xfb,0x8f} , {0xfb,0x03} , {0xfa,0x12} , {0xfb,0x03} , {0xfb,0x03} , {0xf9,0x57} , {0xfb,0x03} , {0xfb,0x8f} , {0xfc,0x0a} , {0xfb,0x8f} , {0xfb,0x03} , {0xfa,0x12} , {0xfb,0x03} , {0xfb,0x03} , {0xfb,0x03} , {0xfc,0xab} , {0xfc,0xab} , {0xfc,0x0a} , {0xfc,0x0a} , {0xfb,0x8f} , {0xfb,0x03} , {0xfb,0x8f} , {0xfc,0xab} , {0xfc,0xab} , {0xfc,0x0a} , {0xfb,0x8f} , {0xfb,0x03} , {0xfc,0x43} , {0xfc,0x0a} , {0xf9,0x57} , {0xfb,0x03} , {0xfb,0x8f} , {0xfc,0x0a} , {0xfb,0x8f} , {0xfb,0x03} , {0xfa,0x12} , {0xfb,0x03} , {0xfb,0x03} , {0xfb,0x03} , {0xf9,0x57} , {0xfb,0x03} , {0xfb,0x8f} , {0xfc,0x0a} , {0xfb,0x8f} , {0xfb,0x03} , {0xfa,0x12} , {0xfb,0x03} , {0xfb,0x03} , {0xf9,0x57} , {0xfb,0x03} , {0xfb,0x8f} , {0xfc,0x0a} , {0xfb,0x8f} , {0xfb,0x03} , {0xfa,0x12} , {0xfb,0x03} , {0xfb,0x03} , {0xfb,0x03} , {0xfc,0xab} , {0xfc,0xab} , {0xfc,0x0a} , {0xfc,0x0a} , {0xfb,0x8f} , {0xfb,0x03} , {0xfb,0x8f} , {0xfc,0xab} , {0xfc,0xab} , {0xfc,0x0a} , {0xfc,0x0a} , {0xfb,0x8f} , {0xfb,0x03} , {0xfc,0x43} , {0xfc,0x0a} , {0xf9,0x57} , {0xfb,0x03} , {0xfb,0x8f} , {0xfc,0x0a} , {0xfb,0x8f} , {0xfb,0x03} , {0xfa,0x12} , {0xfb,0x03} , {0xfb,0x03} , {0xfb,0x03} , };
 float code time[] = { 1.500000 , 0.500000 , 0.500000 , 1.500000 , 1.500000 , 0.500000 , 0.500000 , 0.500000 , 8.000000 , 1.500000 , 0.500000 , 0.500000 , 1.500000 , 1.500000 , 0.500000 , 0.500000 , 0.500000 , 4.000000 , 3.000000 , 1.000000 , 1.500000 , 0.500000 , 0.250000 , 0.250000 , 1.500000 , 3.000000 , 1.000000 , 1.500000 , 0.500000 , 0.500000 , 1.500000 , 3.000000 , 1.000000 , 1.500000 , 0.500000 , 0.500000 , 1.500000 , 1.000000 , 1.000000 , 1.000000 , 1.000000 , 4.000000 , 4.000000 , 1.500000 , 0.500000 , 0.500000 , 1.500000 , 1.000000 , 1.000000 , 1.000000 , 1.000000 , 8.000000 , 1.500000 , 0.500000 , 0.500000 , 1.500000 , 1.000000 , 1.000000 , 1.000000 , 1.000000 , 4.000000 , 3.000000 , 1.000000 , 1.500000 , 0.500000 , 0.250000 , 0.250000 , 1.500000 , 3.000000 , 1.000000 , 1.500000 , 0.500000 , 0.250000 , 0.250000 , 1.500000 , 3.000000 , 1.000000 , 1.500000 , 0.500000 , 0.500000 , 1.500000 , 1.000000 , 1.000000 , 1.000000 , 1.000000 , 4.000000 , 4.000000 , };
+int length = 87;
+int speed = 92; // 120个音符代码每分钟
+	
+	
+int Interrupttimes = 0;
+
+void write()
+{
+	P00 = !P00;
+}
+
+void T0() interrupt 1
+{
+	write();
+}
+
+void T1() interrupt 3
+{
+	Interrupttimes++;
+}
+
+
+void main()
+{
+	int i = 0;
+	
+	int singleTime = 0;
+
+	//24MHz = 20*10^6hz
+	EAXFR = 1;
+	WTST = 0x00;
+	
+	P0M0 = 0x00;
+	P0M1 = 0x00;
+	P1M0 = 0x00;
+	P1M1 = 0x00;
+	P2M0 = 0x00;
+	P2M1 = 0x00;
+	P3M0 = 0x00;
+	P3M1 = 0x00;
+	P4M0 = 0x00;
+	P4M1 = 0x00;
+	P5M0 = 0x00;
+	P5M1 = 0x00;
+	P6M0 = 0x00;
+	P6M1 = 0x00;
+	P7M0 = 0x00;
+	P7M1 = 0x00;
+	
+	TMOD = 0x00;
+	
+	TL0 = 0x00;	
+	TH0 = 0x00;		
+	TL1 = 0xef;	// 5ms一次中断
+	TH1 = 0xd8;
+	
+	TR1 = 1;
+	ET1 = 1;
+	
+	TR0 = 1;				//start timer0
+	ET0 = 1;				//允许中断
+	
+	EA = 1;
+	
+	P00 = 0;
+	P10 = 0;
+	
+	{
+		for (i = 0 ; i < length ; i++) // 读取
+		{
+			P10 = 0;
+			// 更改t0高低八位
+			Timer0H = soundTrack[i][0];
+			Timer0L = soundTrack[i][1];
+			singleTime = (12000 / speed) * time[i];
+			Interrupttimes = 0;
+			
+			if (Timer0H == 0xff && Timer0L == 0xff)
+			{
+				while(singleTime > Interrupttimes)
+				{
+					ET0 = 0;				//允许中断
+				}
+				ET0 = 1;				//允许中断
+			}
+			else
+			{
+				TH0 = Timer0H;
+				TL0 = Timer0L;
+				// 判断时间到没到
+				while(singleTime > Interrupttimes)
+				{
+					P10 = 1;
+				}
+			}
+			
+			
+			// 停顿一下
+			singleTime = 4;
+			Interrupttimes = 0;
+			while(singleTime > Interrupttimes)
+			{
+				ET0 = 0;				//不允许中断
+			}	
+			ET0 = 1;				//允许中断
+		}
+		
+		// stop
+		ET0 = 0;
+		ET1 = 0;
+		while(1){}
+	}
+	
+	
+}

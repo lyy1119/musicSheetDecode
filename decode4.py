@@ -196,7 +196,8 @@ def singleSignDecode(astr):
             '4':6,
             '5':8,
             '6':10,
-            '7':12}
+            '7':12,
+            '0':-1}
     num = 0
     remain = remain.split('*')[0]
     if 'b' in remain:
@@ -206,7 +207,10 @@ def singleSignDecode(astr):
     else:
         num = nums[remain]
 
-    num = num + change + std
+    if num != -1:
+        num = num + change + std
+    else:
+        num = -1
     res[0] = num
 
     # 删除了判断&号
@@ -219,7 +223,12 @@ def singleSignDecode(astr):
 def decodeSheet(main , tunes):
     main_freq = []
     for i in main:
-        main_freq.append([tunes[singleSignDecode(i)[0]] , singleSignDecode(i)[1]])
+        
+        singleSign = singleSignDecode(i)
+        if singleSign[0] != -1:
+            main_freq.append([tunes[singleSign[0]] , singleSign[1]])
+        else:
+            main_freq.append([0 , singleSign[1]])    
     return main_freq
 
 
@@ -234,8 +243,10 @@ def Timerdecode(main_freq , IRC):
     main_TimerHL  = []
     # [ [hex(str) , time(float)] ]
     for i in main_freq:
-        main_TimerHL.append([fun(i[0] , IRC) , i[1]])
-
+        if i[0] != 0:
+            main_TimerHL.append([fun(i[0] , IRC) , i[1]])
+        else:
+            main_TimerHL.append([0 , i[1]])
     return main_TimerHL
 
 def output(main_Time):
@@ -247,18 +258,22 @@ def output(main_Time):
         Timerlist.append(i[0])
     with open('output' , 'w') as f:
         f.write("生成时间:\t%s\n" % time.asctime())
+        f.write("长度\t%d\n" % len(main_Time))
         # 输出一个二维数组样式,播放码，即高八位，低八位
         # { {0x00 , 0x00}, }
-        f.write("u8 soundTrack[][] = { ")
+        f.write("u8 code soundTrack[][] = { ")
         for i in Timerlist:
-            L8 = '0x' + i[2] + i[3]
-            H8 = '0x' + i[4] + i[5]
-            txt = '{' + H8 + ',' + L8 + '} , '
+            if type(i) == int and i == 0:
+                txt = '{' + '0xff' + ',' + '0xff' + '} , '
+            else:    
+                H8 = '0x' + i[2] + i[3]
+                L8 = '0x' + i[4] + i[5]
+                txt = '{' + H8 + ',' + L8 + '} , '
             f.write(txt)
         f.write("};\n")
 
         # 播放时间表 float{}
-        f.write("float time[] = { ")
+        f.write("float code time[] = { ")
         for i in timelist:
             f.write("%f , " % i)
         f.write("};\n")
