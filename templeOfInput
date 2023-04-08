@@ -3,8 +3,7 @@
 
 @ 设置主旋律为D调
 mainTune=C
-
-
+IRC=24000000
 finish
 
 :section=section1

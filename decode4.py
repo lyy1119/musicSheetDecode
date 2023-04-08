@@ -1,5 +1,6 @@
 import time
 import soundfreq
+import decimal
 
 
 # get inputs from terminal
@@ -120,7 +121,12 @@ def envirsgen(envirs):
     else:
         speed = 1
 
-    return tunes , speed
+    if "IRC" in envirs.keys():
+        IRC = envirs["IRC"]
+    else:
+        IRC = 0
+
+    return tunes , speed , IRC
 
 # 把所有段乐谱符号解析 ， 包括主乐谱
 def decodeSectionSign(sections , main):
@@ -216,9 +222,55 @@ def decodeSheet(main , tunes):
         main_freq.append([tunes[singleSignDecode(i)[0]] , singleSignDecode(i)[1]])
     return main_freq
 
+
+# 解析成寄存器变量
+def fun(freq , IRC):
+    IRC = decimal.Decimal(IRC)
+    freq24 = decimal.Decimal(freq * 24)
+    Timer = int((65535 - IRC / freq24).quantize(decimal.Decimal('0')))
+    return hex(Timer)
+
+def Timerdecode(main_freq , IRC):
+    main_TimerHL  = []
+    # [ [hex(str) , time(float)] ]
+    for i in main_freq:
+        main_TimerHL.append([fun(i[0] , IRC) , i[1]])
+
+    return main_TimerHL
+
+def output(main_Time):
+    # [ [hex(str) , time(float)] ]
+    timelist = []
+    Timerlist = []
+    for i in main_Time:
+        timelist.append(i[1])
+        Timerlist.append(i[0])
+    with open('output' , 'w') as f:
+        f.write("生成时间:\t%s\n" % time.asctime())
+        # 输出一个二维数组样式,播放码，即高八位，低八位
+        # { {0x00 , 0x00}, }
+        f.write("u8 soundTrack[][] = { ")
+        for i in Timerlist:
+            L8 = '0x' + i[2] + i[3]
+            H8 = '0x' + i[4] + i[5]
+            txt = '{' + H8 + ',' + L8 + '} , '
+            f.write(txt)
+        f.write("};\n")
+
+        # 播放时间表 float{}
+        f.write("float time[] = { ")
+        for i in timelist:
+            f.write("%f , " % i)
+        f.write("};\n")
+
+
 if __name__ == "__main__":
     envirs , sections , main = basicDecode()
-    tunes , speed = envirsgen(envirs)
+    print(envirs)
+    tunes , speed , IRC= envirsgen(envirs)
     main = decodeSectionSign(sections , main)
     main_freq = decodeSheet(main , tunes)
     print(main_freq)
+    main_time = Timerdecode(main_freq , IRC)
+    print(main_time)
+    output(main_time)
