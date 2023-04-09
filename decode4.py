@@ -154,7 +154,7 @@ def decodeSectionSign(sections , main):
     new_main = []
     for i in main:
         if i.startswith('='):
-            section_name = i.split('=')
+            section_name = i.split('=')[1]
             new_main.extend(new_sections[section_name])
         else:
             new_main.append(i)
@@ -284,6 +284,7 @@ if __name__ == "__main__":
     print(envirs)
     tunes , speed , IRC= envirsgen(envirs)
     main = decodeSectionSign(sections , main)
+    print(main)
     main_freq = decodeSheet(main , tunes)
     print(main_freq)
     main_time = Timerdecode(main_freq , IRC)
