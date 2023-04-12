@@ -1,8 +1,0 @@
-@ 注释
-:setEnvironment
-
-@ 设置主旋律为D调
-mainTune=C
-IRC=24000000
-speed=154
-finish
