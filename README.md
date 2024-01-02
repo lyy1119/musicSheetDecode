@@ -2,11 +2,11 @@
 **乐谱解析(辅助程序)**  
   
 ---------------------------
-2024年1月2日，更新了一下readme
+2024年1月2日，更新了一下readme，后面有时间我再整理
 ---------------------------
 使用stc32G加蜂鸣器播放  
-templeOfInput是国际歌  
-undernoflag也是首写好的歌  
+templeOfInput是国际歌，怎么写乐谱可以参照这个文件。    
+还上传了部分我自己写好的乐谱，在musicsheet里。  
 <br>
 使用重定向  
 python decode4.py < underNoFlag  
